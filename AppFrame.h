@@ -1,17 +1,14 @@
 #pragma once
 
-#include <wx/wx.h>
 #include "AppFrameBase.h"
 
-class AppFrame : public AppFrameBase
+class AppFrame final : public AppFrameBase
 {
-	public:
-		AppFrame(wxWindow* parent);
-		virtual ~AppFrame();
+public:
+    explicit AppFrame(wxWindow* parent);
 
-		void OnClose(wxCloseEvent& event);
-
-	protected:
-		virtual void OnExit(wxCommandEvent& event);
-
+protected:
+    void OnClose(wxCloseEvent& event) override;
+    void OnExit(wxCommandEvent& event) override;
+    void OnMinimize(wxCommandEvent& event) override;
 };

@@ -1,22 +1,41 @@
 #include "App.h"
 #include "AppFrame.h"
 
-IMPLEMENT_APP(TemplateApp);
+#include <wx/cmdline.h>
+#include <wx/image.h>
 
-TemplateApp::~TemplateApp()
+wxIMPLEMENT_APP(TemplateApp);
+
+void TemplateApp::OnInitCmdLine(wxCmdLineParser& parser)
 {
+    wxApp::OnInitCmdLine(parser);
+    parser.AddSwitch("", "smoke-test", "Open the window, then close it.");
+}
+
+bool TemplateApp::OnCmdLineParsed(wxCmdLineParser& parser)
+{
+    smokeTest = parser.Found("smoke-test");
+    return wxApp::OnCmdLineParsed(parser);
 }
 
 bool TemplateApp::OnInit()
 {
-	// Set application name
-	wxApp::SetAppName("Template");
+    if (!wxApp::OnInit())
+        return false;
 
-	pFrame = new AppFrame(0L);
-	pFrame->Show();
+    SetAppName("wxWidgets Boilerplate");
+    wxInitAllImageHandlers();
 
-	// Images
-	wxInitAllImageHandlers();
+    auto* frame = new AppFrame(nullptr);
+    SetTopWindow(frame);
+    frame->Show();
 
-	return true;
+    if (smokeTest)
+    {
+        CallAfter([frame] {
+            wxCommandEvent exitEvent(wxEVT_BUTTON, frame->GetExitButton()->GetId());
+            frame->GetExitButton()->GetEventHandler()->ProcessEvent(exitEvent);
+        });
+    }
+    return true;
 }

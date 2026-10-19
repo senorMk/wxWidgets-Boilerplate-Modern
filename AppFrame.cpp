@@ -1,20 +1,22 @@
 #include "AppFrame.h"
 
 AppFrame::AppFrame(wxWindow* parent)
-	: AppFrameBase(parent)
+    : AppFrameBase(parent, wxID_ANY, "wxWidgets Boilerplate", wxDefaultPosition,
+                   wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxMINIMIZE_BOX)
 {
 }
 
-AppFrame::~AppFrame()
+void AppFrame::OnClose(wxCloseEvent&)
 {
+    Destroy();
 }
 
-void AppFrame::OnClose(wxCloseEvent& event)
+void AppFrame::OnExit(wxCommandEvent&)
 {
-	Destroy();
+    Close();
 }
 
-void AppFrame::OnExit(wxCommandEvent& event)
+void AppFrame::OnMinimize(wxCommandEvent&)
 {
-	Destroy();
+    Iconize(true);
 }

@@ -2,14 +2,13 @@
 
 #include <wx/app.h>
 
-class AppFrame;
-
-class TemplateApp : public wxApp
+class TemplateApp final : public wxApp
 {
-	public:
-		~TemplateApp();
-		virtual bool OnInit();
+public:
+    bool OnInit() override;
+    void OnInitCmdLine(wxCmdLineParser& parser) override;
+    bool OnCmdLineParsed(wxCmdLineParser& parser) override;
 
-	private:
-		AppFrame* pFrame = nullptr;
+private:
+    bool smokeTest = false;
 };
